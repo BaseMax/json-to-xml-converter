@@ -43,7 +43,7 @@ def xml_to_json(xml_data):
         dict: JSON representation.
     """
     def parse_element(element):
-        if not element:
+        if len(element) == 0:
             return element.text
         result = {}
         for child in element:
@@ -109,7 +109,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
 
     json_data = {
         "person": {
