@@ -39,6 +39,13 @@ This converts a JSON file to XML. To convert XML to JSON, use:
 python converter.py --xml-to-json --input input.xml --output output.json
 ```
 
+For example:
+
+```bash
+$ python converter.py --json-to-xml --input input.json --output output.xml
+Converted JSON to XML and saved to output.xml
+```
+
 #### Options:
 - `--json-to-xml`: Convert JSON to XML.
 - `--xml-to-json`: Convert XML to JSON.
