@@ -1,5 +1,7 @@
 import json
 import xml.etree.ElementTree as ET
+import argparse
+import sys
 
 
 def json_to_xml(json_data, root_name="root"):
@@ -59,7 +61,56 @@ def xml_to_json(xml_data):
     return {root.tag: parse_element(root)}
 
 
+def handle_conversion(args):
+    """
+    Handles the conversion based on user-provided arguments.
+
+    Args:
+        args (Namespace): Parsed command-line arguments.
+    """
+    try:
+        if args.json_to_xml:
+            with open(args.input, "r") as f:
+                json_data = json.load(f)
+            xml_output = json_to_xml(json_data, root_name=args.root)
+            with open(args.output, "w") as f:
+                f.write(xml_output)
+            print(f"Converted JSON to XML and saved to {args.output}")
+        elif args.xml_to_json:
+            with open(args.input, "r") as f:
+                xml_data = f.read()
+            json_output = xml_to_json(xml_data)
+            with open(args.output, "w") as f:
+                json.dump(json_output, f, indent=4)
+            print(f"Converted XML to JSON and saved to {args.output}")
+    except Exception as e:
+        print(f"Error during conversion: {e}")
+        sys.exit(1)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Convert JSON to XML or XML to JSON.",
+        epilog="Example: json-to-xml-converter --json-to-xml --input data.json --output data.xml"
+    )
+    parser.add_argument("--json-to-xml", action="store_true", help="Convert JSON to XML")
+    parser.add_argument("--xml-to-json", action="store_true", help="Convert XML to JSON")
+    parser.add_argument("--input", type=str, required=True, help="Input file path")
+    parser.add_argument("--output", type=str, required=True, help="Output file path")
+    parser.add_argument("--root", type=str, default="root", help="Root element name for XML")
+    parser.add_argument("--version", action="version", version="json-to-xml-converter 1.0.0")
+    args = parser.parse_args()
+
+    if not (args.json_to_xml or args.xml_to_json):
+        parser.print_help()
+        sys.exit(1)
+
+    handle_conversion(args)
+
+
 if __name__ == "__main__":
+    main()
+
     json_data = {
         "person": {
             "name": "John Doe",
