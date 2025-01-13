@@ -71,8 +71,7 @@ json_data = {
     }
 }
 xml_output = json_to_xml(json_data, root_name="data")
-print("XML Output:
-", xml_output)
+print("XML Output:\n", xml_output)
 
 # Example XML to JSON conversion
 xml_data = '''
@@ -89,9 +88,7 @@ xml_data = '''
 </data>
 '''
 json_output = xml_to_json(xml_data)
-print("
-JSON Output:
-", json.dumps(json_output, indent=4))
+print("JSON Output:\n", json.dumps(json_output, indent=4))
 ```
 
 ## License
