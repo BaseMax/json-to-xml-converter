@@ -2,9 +2,10 @@ import json
 import xml.etree.ElementTree as ET
 import argparse
 import sys
+from typing import Dict, Any
 
 
-def json_to_xml(json_data, root_name="root"):
+def json_to_xml(json_data: Dict[str, Any], root_name: str = "root") -> str:
     """
     Converts JSON data to XML format.
 
@@ -15,7 +16,7 @@ def json_to_xml(json_data, root_name="root"):
     Returns:
         str: XML string representation.
     """
-    def build_xml_element(parent, data):
+    def build_xml_element(parent: ET.Element, data: Any) -> None:
         if isinstance(data, dict):
             for key, value in data.items():
                 child = ET.SubElement(parent, key)
@@ -32,7 +33,7 @@ def json_to_xml(json_data, root_name="root"):
     return ET.tostring(root, encoding="unicode")
 
 
-def xml_to_json(xml_data):
+def xml_to_json(xml_data: str) -> Dict[str, Any]:
     """
     Converts XML data to JSON format.
 
@@ -42,7 +43,7 @@ def xml_to_json(xml_data):
     Returns:
         dict: JSON representation.
     """
-    def parse_element(element):
+    def parse_element(element: ET.Element) -> Any:
         if len(element) == 0:
             return element.text
         result = {}
@@ -61,7 +62,7 @@ def xml_to_json(xml_data):
     return {root.tag: parse_element(root)}
 
 
-def handle_conversion(args):
+def handle_conversion(args: argparse.Namespace) -> None:
     """
     Handles the conversion based on user-provided arguments.
 
@@ -88,7 +89,7 @@ def handle_conversion(args):
         sys.exit(1)
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="Convert JSON to XML or XML to JSON.",
         epilog="Example: json-to-xml-converter --json-to-xml --input data.json --output data.xml"
